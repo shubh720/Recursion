@@ -1,0 +1,25 @@
+#include<iostream>
+using namespace std;
+
+void subsequence(char input[],int inputIndex,char output[],int outputIndex,int n){
+ if(input[inputIndex]==NULL){
+    output[outputIndex]=NULL;
+    cout<<output<<endl;  
+    return;  
+ }
+
+ output[outputIndex] = input[inputIndex];
+ subsequence(input,inputIndex+1,output,outputIndex+1,n);
+ subsequence(input,inputIndex+1,output,outputIndex,n);
+ return;
+}
+int main(){
+ char input[100];
+ cin>>input;
+ int n = sizeof(input)/sizeof(char);
+ char output[100];
+
+  subsequence(input,0,output,0,n);
+
+ return 0;
+}
