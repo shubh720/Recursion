@@ -1,0 +1,23 @@
+#include <iostream>
+using namespace std;
+
+void towerofhanoi(char src,char help,char dest,int n){
+ // base case
+ if(n == 0){
+    return;
+ }
+ 
+ // recursive case
+ towerofhanoi(src,dest,help,n-1);
+ cout<<"move disk "<<n<<" from "<<src<<"-->"<<dest<<endl;
+ towerofhanoi(help,src,dest,n-1);
+ return;
+
+}
+int main() {
+int n;
+cin>>n;
+
+  towerofhanoi('A','B','C',n);
+ return 0;
+}
