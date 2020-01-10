@@ -1,0 +1,80 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+bool isSafe(int sudoku[][9],int i,int j,int k,int n){
+// 3 condition to check if k is safe to be placed at i,j
+// step1. check in that row
+  for(int c=0;c<n;c++){
+      if(sudoku[i][c]==k){
+          return false;
+      }
+  }
+// step2. check in column
+  for(int c=0;c<n;c++){
+      if(sudoku[c][j]==k){
+          return false;
+      }
+  }
+  int rn = sqrt(n);  
+// step3. check box existence
+  for(int c1=(i/rn)*rn; c1<(i/rn)*rn+3; c1++){
+      for(int c2=(j/rn)*rn; c2<(j/rn)*rn+3; c2++){
+          if(sudoku[c1][c2]==k){
+              return false;
+          }
+      }
+  }
+// agar all steps are not valid that means true
+return true;
+}
+// row wise filling 
+bool sudokuSolver(int sudoku[][9],int i,int j,int n){
+// base case
+ if(i==n){
+     // means completed matrix,now print matrix
+     for(int i=0;i<n;i++){
+         for(int j=0;j<n;j++){
+             cout<<sudoku[i][j]<<" ";
+         }
+       cout<<endl;  
+     }
+  return true;   
+ }
+ if(j==n){
+     // j crossed row,bring to next row
+    return sudokuSolver(sudoku,i+1,0,n);
+ }
+ if(sudoku[i][j]!=0){
+     return sudokuSolver(sudoku,i,j+1,n);
+ }
+   // now elements that have to be inserted, k s current number selected.
+     for(int k=1;k<=n;k++){
+         if(isSafe(sudoku,i,j,k,n)){
+             sudoku[i][j] = k;
+              // age poori row mein recursion solve krega similar way mein
+              bool aagekabatao = sudokuSolver(sudoku,i,j+1,n);
+               if(aagekabatao){
+                 return true;
+               }
+         }
+     }   
+       // when if condition was never true in a row
+       sudoku[i][j]=0;  
+       return false;  
+}
+int main() {
+ int sudoku[9][9] = {   {5,3,0,0,7,0,0,0,0},
+                        {6,0,0,1,9,5,0,0,0},
+                        {0,9,8,0,0,0,0,6,0},
+                        {8,0,0,0,6,0,0,0,3},
+                        {4,0,0,8,0,3,0,0,1},
+                        {7,0,0,0,2,0,0,0,6},
+                        {0,6,0,0,0,0,2,8,0},
+                        {0,0,0,4,1,9,0,0,5},
+                        {0,0,0,0,8,0,0,7,9}
+                    };                        // example matrix
+
+   sudokuSolver(sudoku,0,0,9);
+   return 0;
+}
