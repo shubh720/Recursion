@@ -1,0 +1,55 @@
+#include<iostream>
+using namespace std;
+
+bool RatinMaze(int maze[][10],int soln[][10],int i,int j,int n,int m){
+ // base case
+   if(i==n-1 && j==m-1){
+       // mark last cell
+       soln[i][j] = 1;
+       //print path
+       for(int i=0;i<n;i++){
+          for(int j=0;j<m;j++){
+             cout<<soln[i][j]<<" ";
+          }
+         cout<<endl; 
+       }
+     return true;     
+   }
+
+// case1. when boundary crossed
+  if(i>=n || j>=m){
+      return false;
+  }
+// case2. what if 1 is encountered? 1 means blocked.
+ if(maze[i][j]==2){
+     return false;
+ }
+
+  //phele mark kro phir aage ka check kro
+  soln[i][j] = 1;
+  bool rightmove = RatinMaze(maze,soln,i,j+1,n,m);
+  bool downmove = RatinMaze(maze,soln,i+1,j,n,m);
+   
+    soln[i][j]=0; 
+   if(rightmove || downmove){
+       return true;
+   }
+  return false; 
+}
+
+
+int main(){
+ int n,m;
+ cin>>n>>m;
+ int maze[10][10];
+   for(int i=0;i<n;i++){
+       for(int j=0;j<m;j++){
+           cin>>maze[i][j];
+       }
+   }
+ int soln[10][10]= {0};  
+
+ // send both the 2d arrays ie., soln & maze + initial coordinates & dest coordinates
+  RatinMaze(maze,soln,0,0,n,m);
+   return 0; 
+}
