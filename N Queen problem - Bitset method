@@ -1,0 +1,31 @@
+#include <bits/stdc++.h>
+using namespace std;
+bitset<30> d1,d2,coln;  // initialised to 0 
+
+void solveNqueen(int x,int n,int &ans){
+   if(x == n){
+       ans++;
+       return;
+   }
+
+   for(int col=0;col<n;col++){
+       if(!coln[col] && !d1[x-col+n-1] && !d2[x+col]){
+           coln[col] = d1[x-col+n-1] = d2[x+col] = 1;
+           solveNqueen(x+1,n,ans);
+
+           coln[col] = d1[x-col+n-1] = d2[x+col] = 0; 
+       }
+   }
+}
+
+int main(){
+
+ int n;
+ cin >> n;
+ int ans = 0;
+
+   solveNqueen(0,n,ans);
+   cout << ans << endl;
+
+  return 0;  
+}
