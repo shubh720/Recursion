@@ -1,0 +1,74 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+bool isSafe(int x,int y,int n,int board[][10]){
+ // 3 possibilities of cutting
+   for(int i=0;i<x;i++){
+       if(board[i][y] == 1){
+           return false;
+       }
+   }
+
+   for(int i=x,j=y;i >= 0 && j >= 0;i--,j--){
+       if(board[i][j] == 1){
+           return false;
+       }
+   }
+
+   for(int i=x,j=y;i >= 0 && j < n;i--,j++){
+       if(board[i][j] == 1){
+           return false;
+       }
+   }
+ return true;
+}
+
+// x : starting row, n : size of board
+bool SolveNqueen(int x,int n,int board[][10]){
+   // base case
+    if(x == n){
+        // print
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                if(board[i][j]){
+                    cout << "Q ";
+                }else{
+                    cout << "_ ";
+                }
+            }
+            cout << endl;
+        }
+        cout << "************************" << endl;
+        return false;
+    } 
+
+  // recurive case
+    for(int j=0;j<n;j++){
+        if(isSafe(x,j,n,board) == true){
+            // safe to keeps at position x,j till now-assumption
+            board[x][j] = 1; // my part done
+
+            bool baakiKaCheck = SolveNqueen(x+1,n,board);
+            if(baakiKaCheck == true){
+                // everything is going cool
+                return true;
+            }
+         // flow here means assumption failed somehow
+            board[x][j] = 0;  // backtrack 
+        }
+    }
+ // if loop gets over means no possiblity in that row so
+ return false;
+}
+
+int main(){
+
+ int n;
+ cin>> n;
+ 
+ int board[10][10] = {0}; 
+    
+    SolveNqueen(0,n,board);
+
+  return 0;   
+}
