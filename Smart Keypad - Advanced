@@ -1,0 +1,47 @@
+#include <bits/stdc++.h>
+using namespace std;
+vector<char> v;
+char str[10][5] = {" "," ","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+string check[20] = {"prateek", "sneha", "deepak", "arnav", "shikha", "palak","utkarsh", "divyam", "vidhi", "sparsh", "akku"};
+
+void keypad(int j,int n,string s,string help,vector<string> &ans){
+  // base case
+  if(s[j] == NULL){
+      
+      for(int x=0;x<11;x++){
+          int index = check[x].find(help);
+          //cout << index << " ";
+          if(index != -1){
+              ans.push_back(check[x]);
+          }
+      }
+    
+    return;
+  }
+ 
+ int num = s[j] - '0';
+    
+   // recursive case 
+    for(int i=0;str[num][i]!=NULL;i++)
+        keypad(j+1,n,s,help+char(str[num][i]),ans);
+
+ return ;
+}
+
+int main(){
+
+ string s ;
+ cin >> s;
+
+ int n = s.length();
+
+ vector<string> ans;
+    keypad(0,n,s,"",ans);
+
+    //cout << cnt << endl;
+    for(auto x:ans) cout << x << endl;
+ ans.clear();
+ v.clear();
+
+ return 0;  
+}
